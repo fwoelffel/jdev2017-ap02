@@ -1,0 +1,10 @@
+{
+  "name": "jdev2017-a04",
+  "scripts": {
+    "start": "$(npm bin)/reveal-md -w slides.md",
+    "build": "$(npm bin)/reveal-md -S static slides.md"
+  },
+  "dependencies": {
+    "reveal-md": "^0.3.3"
+  }
+}
