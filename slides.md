@@ -14,9 +14,9 @@
 
 ---
 
-https://goo.gl/GV6QDf
+https://goo.gl/AoEhcG
 
-(http://static.fwoelffel.me/JDEV2017/ap04)
+(http://static.fwoelffel.me/JDEV2017/ap02)
 
 ---
 
