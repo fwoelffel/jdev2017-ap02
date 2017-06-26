@@ -199,7 +199,9 @@ Choisissons de n'installer que les plugins suivants
 
 ----
 
-Continuons en tant qu'administrateur et installons un plugin supplémentaire (choisissez l'installation après redémarrage)
+Continuons en tant qu'administrateur et installons un plugin supplémentaire (choisissez l'installation après **redémarrage**)
+
+http://127.0.0.1:8080/pluginManager/available
 
 Self-Organizing Swarm Plug-in Modules
 
@@ -219,7 +221,7 @@ docker run \
   --net jdev \
   --ip 172.28.0.14 \
   --env DOCKER_DAEMON_ARGS="--insecure-registry 172.28.0.0/16" \
-  --env COMMAND_OPTIONS="-master http://172.28.0.13:8080 -username admin -password efe6bc5e894f406ab320bbf6ad2d8eca -labels docker" \
+  --env COMMAND_OPTIONS="-master http://172.28.0.13:8080 -username admin -password < votre password > -labels docker" \
   fwoelffel/jenkins-slave-dind
 ```
 
@@ -454,7 +456,7 @@ Okay... Mais avec un Pipeline ce serait plus sympa
 
 Créons un nouveau job de type *Pipeline* nommé *hello-world*
 
-http://127.0.0.1:8080/view/all/newJob
+http://127.0.0.1:8080/newJob
 
 ----
 
@@ -773,6 +775,33 @@ pipeline {
   }
 }
 ```
+
+----
+
+Et si je souhaite conserver une trace de mon build ?
+
+----
+
+### Générons un artefact
+
+```yaml
+stage('Documentation') {
+  steps {
+    sh '''
+      echo "On s'eclate !" >> ma_documentation.txt
+    '''
+    archiveArtifacts artifacts: "ma_documentation.txt", fingerprint: true
+  }
+}
+```
+
+----
+
+Pratique !
+
+http://127.0.0.1:8080/job/hello-world/lastSuccessfulBuild/artifact/ma_documentation.txt
+
+![](./img/cool_computer_kid.gif) <!-- .element: class="fragment" -->
 
 ---
 
