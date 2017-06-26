@@ -5,7 +5,9 @@ deploy:
   - npm i
   script:
   - npm run build
-  - mv _static/ /var/www/static/JDEV2017/ap02/
+  - rm -rf /var/www/static/JDEV2017/ap02
+  - mv _static /var/www/static/JDEV2017/ap02
   - mv img/ /var/www/static/JDEV2017/ap02/
+  - chmod 777 /var/www/static/JDEV2017/ap02/
   only:
   - master
