@@ -76,6 +76,85 @@ sudo service docker restart
 
 ---
 
+## Installons Jenkins
+
+----
+
+Démarrons une instance de Jenkins
+
+```
+docker run \
+  --detach \
+  --publish 8080:8080 \
+  --publish 50000:50000 \
+  --link gitlab \
+  --net jdev \
+  --ip 172.28.0.13 \
+  --name jenkins \
+  jenkins:2.60.1-alpine
+```
+
+----
+
+Débloquons l'instance en récupérant le mot de passe administrateur
+
+```
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+http://127.0.0.1:8080/login
+
+----
+
+Choisissons de n'installer que les plugins suivants
+- Gitlab Plugin
+- Pipeline
+
+----
+
+Continuons en tant qu'administrateur et installons un plugin supplémentaire (choisissez l'installation après **redémarrage**)
+
+http://127.0.0.1:8080/pluginManager/available
+
+Self-Organizing Swarm Plug-in Modules
+
+---
+
+## Hello world!
+
+----
+
+Commençons par créer un nouveau projet Jenkins de type *Freestyle project* nommé *echo*
+
+http://127.0.0.1:8080/newJob
+
+----
+
+Rendons-nous directement dans la section *Build*
+
+----
+
+Ajoutons une étape de build de type *Execute shell* et copions-y la ligne suivante
+
+```sh
+echo 'Hello world!'
+```
+
+----
+
+Après avoir sauvegardé nous sommes redirigés vers la page du projet.
+Déclenchons l'exécution du projet en cliquant sur le bouton *Build now*
+
+(http://127.0.0.1:8080/job/echo/build?delay=0sec)
+
+----
+
+Nous venons d'exécuter notre premier projet Jenkins !
+
+http://127.0.0.1:8080/job/echo/1/console
+
+---
+
 ## Installons Gitlab CE
 
 ----
@@ -160,50 +239,6 @@ docker run \
 Admirons
 
 http://127.0.0.1:5001
-
----
-
-## Installons Jenkins
-
-----
-
-Démarrons une instance de Jenkins
-
-```
-docker run \
-  --detach \
-  --publish 8080:8080 \
-  --publish 50000:50000 \
-  --link gitlab \
-  --net jdev \
-  --ip 172.28.0.13 \
-  --name jenkins \
-  jenkins:2.60.1-alpine
-```
-
-----
-
-Débloquons l'instance en récupérant le mot de passe administrateur
-
-```
-docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-```
-
-http://127.0.0.1:8080/login
-
-----
-
-Choisissons de n'installer que les plugins suivants
-- Gitlab Plugin
-- Pipeline
-
-----
-
-Continuons en tant qu'administrateur et installons un plugin supplémentaire (choisissez l'installation après **redémarrage**)
-
-http://127.0.0.1:8080/pluginManager/available
-
-Self-Organizing Swarm Plug-in Modules
 
 ---
 
