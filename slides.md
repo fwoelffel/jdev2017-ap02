@@ -395,8 +395,20 @@ Saisissons les valeurs suivantes
 | Repository URL | git@172.28.0.10:jdev/hello-world.git |
 | Credentials | Gitlab SSH Key |
 | Name | origin |
-| Refspec | `+refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/*` |
+
+...
+
+----
+
+...
+
+| Champ | Valeur |
+| --- | --- |
+| Refspec | +refs/heads/\*:refs/remotes/origin/\* +refs/merge-requests/\*/head:refs/remotes/origin/merge-requests/\* |
 | Branch Specifier | origin/${gitlabSourceBranch} |
+<!-- +refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/* -->
+
+
 
 ----
 
