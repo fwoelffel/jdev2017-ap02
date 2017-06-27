@@ -91,7 +91,7 @@ docker run \
   --ip 172.28.0.10 \
   --name gitlab \
   --env GITLAB_OMNIBUS_CONFIG="external_url 'http://172.28.0.1/'" \
-  gitlab/gitlab-ce:9.2.5-ce.0
+  gitlab/gitlab-ce:9.3.0-ce.0
 ```
 
 ----
@@ -360,7 +360,7 @@ Saisissons les valeurs suivantes
 | Repository URL | git@172.28.0.10:jdev/hello-world.git |
 | Credentials | Gitlab SSH Key |
 | Name | origin |
-| Refspec | +refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/* |
+| Refspec | `+refs/heads/*:refs/remotes/origin/* +refs/merge-requests/*/head:refs/remotes/origin/merge-requests/*` |
 | Branch Specifier | origin/${gitlabSourceBranch} |
 
 ----
