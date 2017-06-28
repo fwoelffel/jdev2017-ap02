@@ -531,7 +531,17 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+           scm: [
+               $class: "GitSCM",
+               userRemoteConfigs: [
+                   [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+               ],
+               branches: [
+                   [name: env.gitlabSourceBranch]
+               ]
+           ]
+         )
       }
     }
   }
@@ -560,7 +570,17 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+          scm: [
+             $class: "GitSCM",
+             userRemoteConfigs: [
+                 [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+             ],
+             branches: [
+                 [name: env.gitlabSourceBranch]
+             ]
+          ]
+        )
       }
     }
     stage('Build') {
@@ -588,7 +608,17 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+          scm: [
+             $class: "GitSCM",
+             userRemoteConfigs: [
+                 [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+             ],
+             branches: [
+                 [name: env.gitlabSourceBranch]
+             ]
+          ]
+        )
       }
     }
     stage('Build') {
@@ -624,7 +654,17 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+          scm: [
+             $class: "GitSCM",
+             userRemoteConfigs: [
+                 [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+             ],
+             branches: [
+                 [name: env.gitlabSourceBranch]
+             ]
+          ]
+        )
       }
     }
     stage('Build') {
@@ -680,76 +720,11 @@ pipeline {
   }
 }
 ```
-
-----
-
-Utilisons ce beau Pipeline
-
-```groovy
-pipeline {
-  agent {
-    label 'docker'
-  }
-  stages {
-    stage('Checkout') {
-      steps {
-        git branch: env.gitlabSourceBranch, credentialsId: '31f67758-5ec1-4a89-b5fa-f28ab8fb01e1', url: 'git@172.28.0.1:jdev/hello-world.git'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh '''
-        docker build -t 172.28.0.11:5000/hello-world:ci_$(git rev-parse --short HEAD) .
-        docker push 172.28.0.11:5000/hello-world:ci_$(git rev-parse --short HEAD)
-        '''
-      }
-    }
-    stage('Tests') {
-      steps {
-        sh '''
-        docker run 172.28.0.11:5000/hello-world:ci_$(git rev-parse --short HEAD) test
-        '''
-      }
-    }
-    stage('Release:Latest') {
-      when {
-        expression {
-          return env.gitlabSourceBranch == 'master'
-        }
-      }
-      steps {
-        sh '''
-        docker tag 172.28.0.11:5000/hello-world:ci_$(git rev-parse --short HEAD) 172.28.0.11:5000/hello-world:latest
-        docker push 172.28.0.11:5000/hello-world:latest
-        '''
-      }
-    }
-    stage('Release:Tagged') {
-      when {
-        expression {
-          TAGGED = sh (
-            script: "git describe --exact-match --tags",
-            returnStatus: true
-          ) == 0
-          return TAGGED
-        }
-      }
-      steps {
-        sh '''
-        docker tag 172.28.0.11:5000/hello-world:ci_$(git rev-parse --short HEAD) 172.28.0.11:5000/hello-world:$(git describe --exact-match --tags)
-        docker push 172.28.0.11:5000/hello-world:$(git describe --exact-match --tags)
-        '''
-      }
-    }
-  }
-}
-```
-
 ----
 
 Et avec un peu de feedback...
 
-```yaml
+```
 pipeline {
   agent {
     label 'docker'
@@ -758,7 +733,17 @@ pipeline {
     stage('Checkout') {
       steps {
         updateGitlabCommitStatus name: 'hello-world', state: 'running'
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+          scm: [
+             $class: "GitSCM",
+             userRemoteConfigs: [
+                 [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+             ],
+             branches: [
+                 [name: env.gitlabSourceBranch]
+             ]
+          ]
+        )
       }
     }
     stage('Build') {
@@ -831,7 +816,7 @@ Et si je souhaite conserver une trace de mon build ?
 
 ### Générons un artefact
 
-```yaml
+```
 stage('Documentation') {
   steps {
     sh '''
@@ -961,7 +946,7 @@ http://127.0.0.1:8081/env/1a5/api/keys
 
 Mettons notre pipeline à jour
 
-```yaml
+```
 pipeline {
   agent {
     label 'docker'
@@ -970,7 +955,17 @@ pipeline {
     stage('Checkout') {
       steps {
         updateGitlabCommitStatus name: 'hello-world', state: 'running'
-        git branch: env.gitlabSourceBranch, credentialsId: '4381b9e0-15ec-4c03-880f-81e23d13ad7c', url: 'git@172.28.0.10:jdev/hello-world.git'
+        checkout(
+          scm: [
+             $class: "GitSCM",
+             userRemoteConfigs: [
+                 [url: "git@172.28.0.10:jdev/hello-world.git", credentialsId: "< id de votre credential ssh >"]
+             ],
+             branches: [
+                 [name: env.gitlabSourceBranch]
+             ]
+          ]
+        )
       }
     }
     stage('Build') {
