@@ -720,6 +720,7 @@ pipeline {
   }
 }
 ```
+
 ----
 
 Et avec un peu de feedback...
