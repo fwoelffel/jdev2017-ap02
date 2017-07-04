@@ -2,6 +2,8 @@
 
 *JDEV2017 - Frédéric Woelffel*
 
+<img src="./img/logo_jdev.png" style="background:none;border:none;box-shadow:none"/>
+
 ---
 
 ## Moi ?
@@ -1087,6 +1089,8 @@ http://127.0.0.1:3000
 ### Pipeline Gitlab / Jenkins / Docker
 
 *JDEV2017 - Frédéric Woelffel*
+
+<img src="./img/logo_jdev.png" style="background:none;border:none;box-shadow:none"/>
 
 -----
 
