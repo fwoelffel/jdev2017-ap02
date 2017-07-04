@@ -89,7 +89,6 @@ docker run \
   --detach \
   --publish 8080:8080 \
   --publish 50000:50000 \
-  --link gitlab \
   --net jdev \
   --ip 172.28.0.13 \
   --name jenkins \
